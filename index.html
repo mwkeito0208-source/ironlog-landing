@@ -331,16 +331,44 @@
     100% { opacity: 0.7; transform: scale(0.98) translateY(10px); }
   }
 
-  /* ===== HERO PHONE 3D ===== */
+  /* ===== HERO TEXT CLIP REVEAL ===== */
+  .hero h1 {
+    animation: clipReveal 1s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  }
+  @keyframes clipReveal {
+    from { clip-path: inset(0 100% 0 0); opacity: 0; }
+    to { clip-path: inset(0 0% 0 0); opacity: 1; }
+  }
+  .hero h1 .accent {
+    display: inline-block;
+    animation: accentPop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.8s both;
+  }
+  @keyframes accentPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* ===== HERO PHONE 3D + GLOW ===== */
   .hero-visual .phone-frame {
     animation: phoneFloat 8s ease-in-out infinite;
     transform-style: preserve-3d;
   }
+  .hero-visual::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 300px; height: 560px; border-radius: 40px;
+    background: var(--orange); opacity: 0;
+    filter: blur(60px); animation: phoneGlow 4s ease-in-out infinite;
+    z-index: -1;
+  }
+  @keyframes phoneGlow {
+    0%, 100% { opacity: 0.08; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 0.18; transform: translate(-50%,-50%) scale(1.08); }
+  }
   @keyframes phoneFloat {
     0%, 100% { transform: translateY(0) rotateY(0deg) rotateX(0deg); }
-    25% { transform: translateY(-12px) rotateY(2deg) rotateX(1deg); }
-    50% { transform: translateY(-6px) rotateY(-1deg) rotateX(-1deg); }
-    75% { transform: translateY(-14px) rotateY(1.5deg) rotateX(0.5deg); }
+    25% { transform: translateY(-16px) rotateY(3deg) rotateX(2deg); }
+    50% { transform: translateY(-8px) rotateY(-2deg) rotateX(-1deg); }
+    75% { transform: translateY(-18px) rotateY(2deg) rotateX(1deg); }
   }
 
   /* ===== GLOW LINE DIVIDER ===== */
@@ -364,6 +392,17 @@
 </style>
 </head>
 <body>
+
+<!-- Particle canvas background -->
+<canvas id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
+<!-- Mouse-follow glow orb -->
+<div id="cursor-glow" style="position:fixed;width:500px;height:500px;border-radius:50%;pointer-events:none;z-index:1;
+  background:radial-gradient(circle,rgba(232,114,42,0.12) 0%,rgba(232,114,42,0.04) 30%,transparent 70%);
+  transform:translate(-50%,-50%);transition:left 0.3s ease-out,top 0.3s ease-out;display:none;"></div>
+
+<!-- Scroll progress bar -->
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--orange-light));z-index:101;width:0;transition:width 0.1s;"></div>
 
 <!-- NAV (minimal - logo + single CTA) -->
 <nav>
@@ -738,11 +777,122 @@ const countObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 document.querySelectorAll('.count-up').forEach(el => countObs.observe(el));
 
-// ===== NAV SCROLL =====
+// ===== NAV SCROLL + SCROLL PROGRESS =====
+const navEl = document.querySelector('nav');
+const progressBar = document.getElementById('scroll-progress');
 window.addEventListener('scroll', () => {
-  document.querySelector('nav').style.background =
-    window.scrollY > 50 ? 'rgba(13,13,13,0.95)' : 'rgba(13,13,13,0.8)';
+  navEl.style.background = window.scrollY > 50 ? 'rgba(13,13,13,0.95)' : 'rgba(13,13,13,0.8)';
+  // Scroll progress bar
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  if (docHeight > 0) {
+    progressBar.style.width = (scrollTop / docHeight * 100) + '%';
+  }
 });
+
+// ===== MOUSE CURSOR GLOW =====
+const cursorGlow = document.getElementById('cursor-glow');
+if (window.matchMedia('(pointer: fine)').matches) {
+  cursorGlow.style.display = 'block';
+  document.addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+  });
+}
+
+// ===== PARTICLE BACKGROUND =====
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const particles = [];
+  const PARTICLE_COUNT = 50;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function Particle() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.r = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.4 + 0.1;
+  }
+  Particle.prototype.update = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+  };
+  Particle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(232,114,42,' + this.opacity + ')';
+    ctx.fill();
+  };
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(new Particle());
+  }
+
+  // Draw connecting lines between nearby particles
+  function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(232,114,42,' + (0.06 * (1 - dist / 150)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawLines();
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ===== TYPING EFFECT ON SECTION TITLES =====
+const titleObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.style.borderRight = '2px solid var(--orange)';
+    e.target.style.animation = 'none';
+    const text = e.target.textContent;
+    e.target.textContent = '';
+    e.target.style.opacity = '1';
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        e.target.textContent += text[i];
+        i++;
+        setTimeout(type, 30);
+      } else {
+        e.target.style.borderRight = 'none';
+      }
+    }
+    type();
+    titleObs.unobserve(e.target);
+  });
+}, { threshold: 0.5 });
 </script>
 </body>
 </html>
