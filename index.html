@@ -293,8 +293,74 @@
     .gallery-item .phone-frame { width: 150px; height: 306px; }
   }
 
+  /* ===== REVEAL ANIMATIONS ===== */
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Slide from left */
+  .reveal-left { opacity: 0; transform: translateX(-60px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+  /* Slide from right */
+  .reveal-right { opacity: 0; transform: translateX(60px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Feature stagger */
+  .feature-card { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s; }
+  .feature-card.visible { opacity: 1; transform: translateY(0); }
+
+  /* Feature card glow on hover */
+  .feature-card:hover {
+    border-color: rgba(232,114,42,0.4); transform: translateY(-4px);
+    box-shadow: 0 0 30px rgba(232,114,42,0.08), 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  /* ===== ANIMATED GRADIENT BG ===== */
+  .hero::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 600px 600px at 20% 50%, rgba(232,114,42,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 500px 500px at 80% 20%, rgba(245,148,77,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 400px at 60% 80%, rgba(232,114,42,0.03) 0%, transparent 70%);
+    animation: gradientShift 12s ease-in-out infinite alternate;
+    pointer-events: none; z-index: 0;
+  }
+  @keyframes gradientShift {
+    0% { opacity: 0.6; transform: scale(1) translateY(0); }
+    50% { opacity: 1; transform: scale(1.05) translateY(-20px); }
+    100% { opacity: 0.7; transform: scale(0.98) translateY(10px); }
+  }
+
+  /* ===== HERO PHONE 3D ===== */
+  .hero-visual .phone-frame {
+    animation: phoneFloat 8s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+  @keyframes phoneFloat {
+    0%, 100% { transform: translateY(0) rotateY(0deg) rotateX(0deg); }
+    25% { transform: translateY(-12px) rotateY(2deg) rotateX(1deg); }
+    50% { transform: translateY(-6px) rotateY(-1deg) rotateX(-1deg); }
+    75% { transform: translateY(-14px) rotateY(1.5deg) rotateX(0.5deg); }
+  }
+
+  /* ===== GLOW LINE DIVIDER ===== */
+  .divider {
+    position: relative; overflow: visible;
+  }
+  .divider::after {
+    content: ''; position: absolute; top: -1px; left: 30%; width: 40%; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    opacity: 0; transition: opacity 0.6s;
+    border-radius: 2px; filter: blur(1px);
+  }
+  .divider.glow::after { opacity: 0.4; }
+
+  /* ===== COUNTER ===== */
+  .count-up { font-variant-numeric: tabular-nums; }
+
+  /* ===== SHOWCASE ITEMS STAGGER ===== */
+  .showcase-item { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .showcase-item.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -399,7 +465,7 @@
   <div class="gallery-header">
     <div class="section-label">スクリーンショット</div>
     <h2 class="section-title">世界一使いやすい筋トレアプリへ</h2>
-    <p class="section-desc">リリース以来、ユーザーのフィードバックをもとに<strong style="color:var(--orange)">100以上の改善</strong>を実施。これからも進化は止まりません。</p>
+    <p class="section-desc">リリース以来、ユーザーのフィードバックをもとに<strong style="color:var(--orange)"><span class="count-up" data-target="100">0</span>以上の改善</strong>を実施。これからも進化は止まりません。</p>
   </div>
   <div class="gallery-scroll">
     <div class="gallery-item">
@@ -451,13 +517,13 @@
 <div class="divider"></div>
 
 <!-- SHOWCASE: Recording -->
-<section class="showcase reveal">
-  <div class="showcase-phone">
+<section class="showcase">
+  <div class="showcase-phone reveal-left">
     <div class="phone-frame"><div class="phone-notch"></div>
       <div class="phone-screen"><img src="images/workout-record.png" alt="セット記録画面" loading="lazy" width="210" height="428"></div>
     </div>
   </div>
-  <div class="showcase-list">
+  <div class="showcase-list reveal-right">
     <div class="section-label">記録フロー</div>
     <h2 class="section-title">ルーティンを選んで<br>チェックするだけ</h2>
     <div class="showcase-item">
@@ -487,13 +553,13 @@
 <div class="divider"></div>
 
 <!-- SHOWCASE: Stats -->
-<section class="showcase showcase-reverse reveal">
-  <div class="showcase-phone">
+<section class="showcase showcase-reverse">
+  <div class="showcase-phone reveal-right">
     <div class="phone-frame"><div class="phone-notch"></div>
       <div class="phone-screen"><img src="images/stats-heatmap.png" alt="ヒートマップ画面" loading="lazy" width="210" height="428"></div>
     </div>
   </div>
-  <div class="showcase-list">
+  <div class="showcase-list reveal-left">
     <div class="section-label">分析</div>
     <h2 class="section-title">データが<br>次のトレーニングを変える</h2>
     <div class="showcase-item">
@@ -612,13 +678,67 @@
 </div>
 
 <script>
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
+// ===== SCROLL REVEAL (up / left / right) =====
+const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
 
-// Nav scroll
+// ===== FEATURE CARD STAGGER =====
+const featureObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const cards = e.target.querySelectorAll('.feature-card');
+    cards.forEach((card, i) => {
+      setTimeout(() => card.classList.add('visible'), i * 120);
+    });
+    featureObs.unobserve(e.target);
+  });
+}, { threshold: 0.15 });
+const featGrid = document.querySelector('.features-grid');
+if (featGrid) featureObs.observe(featGrid);
+
+// ===== SHOWCASE ITEMS STAGGER =====
+const showcaseObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const items = e.target.querySelectorAll('.showcase-item');
+    items.forEach((item, i) => {
+      setTimeout(() => item.classList.add('visible'), i * 150);
+    });
+    showcaseObs.unobserve(e.target);
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.showcase-list').forEach(el => showcaseObs.observe(el));
+
+// ===== DIVIDER GLOW =====
+const dividerObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('glow'); });
+}, { threshold: 0.5 });
+document.querySelectorAll('.divider').forEach(el => dividerObs.observe(el));
+
+// ===== COUNT UP =====
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.target);
+    const duration = 1600;
+    const start = performance.now();
+    const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t; // easeInOutQuad
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      el.textContent = Math.floor(ease(p) * target);
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+    countObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.count-up').forEach(el => countObs.observe(el));
+
+// ===== NAV SCROLL =====
 window.addEventListener('scroll', () => {
   document.querySelector('nav').style.background =
     window.scrollY > 50 ? 'rgba(13,13,13,0.95)' : 'rgba(13,13,13,0.8)';
