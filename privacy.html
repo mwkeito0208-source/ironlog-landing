@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー | IronLog</title>
+<link rel="canonical" href="https://ironlog.app/privacy">
+<link rel="icon" type="image/png" href="images/favicon.png?v=2">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@400,500,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8722A; --orange-light: #F5944D;
+    --grey-800: #1E1E1E; --grey-400: #888888; --grey-300: #AAAAAA; --grey-200: #CCCCCC; --white: #FFFFFF;
+    --bg: #0D0D0D; --card-border: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Cabinet Grotesk', -apple-system, sans-serif;
+    background: var(--bg); color: var(--grey-200); line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--white); }
+  .nav-logo-icon {
+    width: 34px; height: 34px; background: var(--orange); border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white);
+  }
+  .nav-logo-text { font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 1.2rem; }
+  .back-link { color: var(--grey-400); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+  .back-link:hover { color: var(--white); }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+  h1 {
+    font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 2rem;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .updated { font-size: 0.82rem; color: var(--grey-400); margin-bottom: 2.5rem; }
+  h2 {
+    font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 1.2rem;
+    color: var(--white); margin: 2rem 0 0.75rem; letter-spacing: -0.01em;
+  }
+  p, li { font-size: 0.92rem; color: var(--grey-300); margin-bottom: 0.75rem; }
+  ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+  li { margin-bottom: 0.4rem; }
+  a { color: var(--orange-light); }
+
+  footer {
+    border-top: 1px solid var(--card-border); padding: 2rem; text-align: center;
+    font-size: 0.78rem; color: var(--grey-400);
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">Fe</div>
+    <span class="nav-logo-text">IronLog</span>
+  </a>
+  <a href="index.html" class="back-link">← トップに戻る</a>
+</nav>
+
+<main>
+<h1>プライバシーポリシー</h1>
+<p class="updated">最終更新日: 2025年3月8日</p>
+
+<p>IronLog（以下「本アプリ」）は、Keito Miwa（以下「運営者」）が提供する筋トレ記録アプリです。本プライバシーポリシーでは、本アプリにおける個人情報の取り扱いについて説明します。</p>
+
+<h2>1. 収集する情報</h2>
+<p>本アプリでは、以下の情報を収集する場合があります。</p>
+<ul>
+  <li><strong>アカウント情報</strong>: メールアドレス（アカウント登録時）</li>
+  <li><strong>ワークアウトデータ</strong>: トレーニング記録（種目、重量、レップ数、セット数、日時）</li>
+  <li><strong>プロフィール情報</strong>: 体重（カロリー計算用、任意入力）</li>
+  <li><strong>端末情報</strong>: デバイスの種類、OSバージョン（不具合対応のため）</li>
+</ul>
+
+<h2>2. 情報の利用目的</h2>
+<p>収集した情報は、以下の目的で利用します。</p>
+<ul>
+  <li>本アプリの機能提供およびサービス改善</li>
+  <li>ワークアウトデータのクラウド同期</li>
+  <li>ユーザーサポートへの対応</li>
+  <li>不具合の調査と修正</li>
+</ul>
+
+<h2>3. 情報の第三者提供</h2>
+<p>運営者は、法令に基づく場合を除き、ユーザーの個人情報を第三者に提供することはありません。</p>
+
+<h2>4. データの保管</h2>
+<p>ワークアウトデータおよびアカウント情報は、Supabase（クラウドサービス）上に安全に保管されます。データはSSL/TLSにより暗号化されて送受信されます。</p>
+
+<h2>5. 外部サービス</h2>
+<p>本アプリでは、以下の外部サービスを利用しています。各サービスのプライバシーポリシーもあわせてご確認ください。</p>
+<ul>
+  <li><strong>Supabase</strong>: データベース・認証基盤</li>
+  <li><strong>Expo / React Native</strong>: アプリ開発フレームワーク</li>
+</ul>
+
+<h2>6. データの削除</h2>
+<p>ユーザーは、アプリ内からアカウントを削除することで、サーバーに保存されたすべてのデータを削除できます。削除リクエストは <a href="mailto:mw.keito.0208@gmail.com">mw.keito.0208@gmail.com</a> でも受け付けています。</p>
+
+<h2>7. Cookie・トラッキング</h2>
+<p>本アプリはCookieを使用しません。また、広告トラッキングやサードパーティのアナリティクスツールは導入していません。</p>
+
+<h2>8. 未成年者の利用</h2>
+<p>本アプリは、13歳未満のお子様を対象としていません。13歳未満の方の個人情報を意図的に収集することはありません。</p>
+
+<h2>9. ポリシーの変更</h2>
+<p>本ポリシーは、必要に応じて変更されることがあります。重要な変更がある場合は、アプリ内またはウェブサイトで通知します。</p>
+
+<h2>10. お問い合わせ</h2>
+<p>プライバシーに関するお問い合わせは、以下までご連絡ください。</p>
+<p>
+  運営者: Keito Miwa<br>
+  メール: <a href="mailto:mw.keito.0208@gmail.com">mw.keito.0208@gmail.com</a>
+</p>
+</main>
+
+<footer>&copy; 2025-2026 IronLog. All rights reserved.</footer>
+</body>
+</html>
